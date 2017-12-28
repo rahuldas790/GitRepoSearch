@@ -198,7 +198,7 @@ public class RepoDetailsActivity extends AppCompatActivity {
             return userList.size();
         }
 
-        class MyHolder extends RecyclerView.ViewHolder {
+        class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             ImageView imageView;
             TextView title;
 
@@ -207,6 +207,16 @@ public class RepoDetailsActivity extends AppCompatActivity {
 
                 imageView = itemView.findViewById(R.id.image);
                 title = itemView.findViewById(R.id.name);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RepoDetailsActivity.this, UserDetailsActivity.class);
+                Bundle b = new Bundle();
+                b.putParcelable("user", userList.get(getAdapterPosition()));
+                i.putExtras(b);
+                startActivity(i);
             }
         }
     }

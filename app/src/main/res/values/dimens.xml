@@ -2,4 +2,5 @@
 <resources>
     <dimen name="small_details">11sp</dimen>
     <dimen name="small_icon">15sp</dimen>
+    <dimen name="medium_icons">30dp</dimen>
 </resources>

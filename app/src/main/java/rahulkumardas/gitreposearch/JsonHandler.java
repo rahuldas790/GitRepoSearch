@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * Created by Rahul Kumar Das on 28-12-2017.
+ * <p>
+ * handle the REST responses
  */
 
 public class JsonHandler {
@@ -68,16 +70,50 @@ public class JsonHandler {
         return repositoryList;
     }
 
-    public static List<User> handleUsers(JsonArray jsonArray) {
+    public static List<User> handleUsers(JsonElement jsonElement) {
         List<User> userList = new ArrayList<>();
-        if (jsonArray == null || jsonArray.size() == 0)
+        if (jsonElement == null || jsonElement.isJsonNull())
             return userList;
+        JsonArray jsonArray = null;
+        if (jsonElement.isJsonArray())
+            jsonArray = jsonElement.getAsJsonArray();
+        if (jsonElement.isJsonObject()) {
+            jsonArray = new JsonArray();
+            jsonArray.add(jsonElement.getAsJsonObject());
+        }
         for (int i = 0; i < jsonArray.size(); i++) {
             User user = new User();
             JsonObject item = jsonArray.get(i).getAsJsonObject();
             user.setLoginName(item.get("login").getAsString());
             user.setAvtarUrl(item.get("avatar_url").getAsString());
+            user.setRepoUrl(item.get("repos_url").getAsString());
+            user.setSelfUrl(item.get("url").getAsString());
             user.setId(item.get("id").getAsInt());
+            if (item.has("contributions")) {
+                user.setContributions(item.get("contributions").getAsInt());
+            }
+            if (item.has("public_repos")) {
+                user.setRepoCount(item.get("public_repos").getAsInt());
+            }
+            if (item.has("followers"))
+                user.setFollowers(item.get("followers").getAsInt());
+            if (item.has("following"))
+                user.setFollowing(item.get("following").getAsInt());
+            if (item.has("name")) {
+                user.setName(item.get("name").getAsString());
+                if (!item.get("company").isJsonNull())
+                    user.setCompany(item.get("company").getAsString());
+                if (!item.get("email").isJsonNull())
+                    user.setEmail(item.get("email").getAsString());
+                if (!item.get("location").isJsonNull())
+                    user.setLocation(item.get("location").getAsString());
+                if (!item.get("bio").isJsonNull())
+                    user.setBio(item.get("bio").getAsString());
+                if (!item.get("blog").isJsonNull())
+                    user.setBlog(item.get("blog").getAsString());
+                if (!item.get("created_at").isJsonNull())
+                    user.setCreatedOn(item.get("created_at").getAsString());
+            }
             userList.add(user);
         }
         return userList;

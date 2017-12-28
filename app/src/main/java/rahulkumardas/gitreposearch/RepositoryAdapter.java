@@ -83,6 +83,7 @@ class RepositoryAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             int position = getAdapterPosition();
             Intent i = new Intent(context, RepoDetailsActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Bundle b = new Bundle();
             b.putParcelable("repo", repositoryList.get(position));
             i.putExtras(b);

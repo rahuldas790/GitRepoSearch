@@ -5,9 +5,59 @@ import android.os.Parcelable;
 
 /**
  * Created by Rahul Kumar Das on 27-12-2017.
+ * User model
  */
 
 public class User implements Parcelable {
+
+    private String name;
+    private String loginName;
+    private String avtarUrl;
+    private String company;
+    private String location;
+    private String email;
+    private String bio;
+    private String blog;
+    private String selfUrl;
+    private String createdOn;
+    private String repoUrl;
+    private int following, followers;
+    int id;
+
+    public int getRepoCount() {
+        return repoCount;
+    }
+
+    public void setRepoCount(int repoCount) {
+        this.repoCount = repoCount;
+    }
+
+    public int getContributions() {
+        return contributions;
+    }
+
+    public void setContributions(int contributions) {
+        this.contributions = contributions;
+    }
+
+    int repoCount;
+    int contributions;
+
+    public String getBlog() {
+        return blog;
+    }
+
+    public void setBlog(String blog) {
+        this.blog = blog;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
 
     public User() {
         //required for instantiation
@@ -21,6 +71,15 @@ public class User implements Parcelable {
         location = in.readString();
         email = in.readString();
         id = in.readInt();
+        followers = in.readInt();
+        following = in.readInt();
+        contributions = in.readInt();
+        repoCount = in.readInt();
+        bio = in.readString();
+        blog = in.readString();
+        createdOn = in.readString();
+        repoUrl = in.readString();
+        selfUrl = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -91,8 +150,14 @@ public class User implements Parcelable {
         this.id = id;
     }
 
-    private String name, loginName, avtarUrl, company, location, email;
-    int id;
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     @Override
     public int describeContents() {
@@ -108,5 +173,46 @@ public class User implements Parcelable {
         dest.writeString(location);
         dest.writeString(email);
         dest.writeInt(id);
+        dest.writeInt(repoCount);
+        dest.writeInt(contributions);
+        dest.writeInt(followers);
+        dest.writeInt(following);
+        dest.writeString(bio);
+        dest.writeString(blog);
+        dest.writeString(createdOn);
+        dest.writeString(repoUrl);
+        dest.writeString(selfUrl);
+    }
+
+    public String getRepoUrl() {
+        return repoUrl;
+    }
+
+    public void setRepoUrl(String repoUrl) {
+        this.repoUrl = repoUrl;
+    }
+
+    public int getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(int following) {
+        this.following = following;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(int followers) {
+        this.followers = followers;
+    }
+
+    public String getSelfUrl() {
+        return selfUrl;
+    }
+
+    public void setSelfUrl(String selfUrl) {
+        this.selfUrl = selfUrl;
     }
 }
