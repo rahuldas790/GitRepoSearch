@@ -188,6 +188,7 @@ public class RepoDetailsActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             MyHolder myHolder = (MyHolder) holder;
             myHolder.title.setText(userList.get(position).getLoginName());
+            myHolder.contribution.setText("Contributions : " + userList.get(position).getContributions());
             Glide.with(RepoDetailsActivity.this)
                     .load(userList.get(position).getAvtarUrl())
                     .into(myHolder.imageView);
@@ -200,13 +201,14 @@ public class RepoDetailsActivity extends AppCompatActivity {
 
         class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             ImageView imageView;
-            TextView title;
+            TextView title, contribution;
 
             public MyHolder(View itemView) {
                 super(itemView);
 
                 imageView = itemView.findViewById(R.id.image);
                 title = itemView.findViewById(R.id.name);
+                contribution = itemView.findViewById(R.id.contributions);
                 itemView.setOnClickListener(this);
             }
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -87,6 +88,9 @@ public class UserDetailsFragment extends Fragment {
                     email.setText(user.getEmail());
                     blog.setText(user.getBlog());
                     createdOn.setText(user.getCreatedOn());
+                    Glide.with(getActivity())
+                            .load(user.getAvtarUrl())
+                            .into(imageView);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
