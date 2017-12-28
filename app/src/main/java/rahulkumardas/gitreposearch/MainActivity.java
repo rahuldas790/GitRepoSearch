@@ -9,9 +9,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,7 +25,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     SearchView searchView;
     private RecyclerView recyclerView;
-    private List<Repository> repositoryList;
+    private List<Repository> repositoryList = new ArrayList<>();
+    private RepositoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchView = toolbar.findViewById(R.id.search);
         searchView.setOnQueryTextListener(this);
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RepositoryAdapter(this, repositoryList));
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RepositoryAdapter(this, repositoryList);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -69,16 +76,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             return;
         }
         RestAdapterAPI api = Config.getRestAdapter();
-        Call<JsonObject> result = api.searchRepository(query, 10, 1, "updated", "desc");
-        result.enqueue(new Callback<JsonObject>() {
+        Call<JsonElement> result = api.searchRepository(query, 10, 1, "updated", "desc");
+        result.enqueue(new Callback<JsonElement>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                repositoryList.clear();
+                repositoryList.addAll(JsonHandler.handleRepositories(response.body()));
+//                Toast.makeText(MainActivity.this, "list size" + repositoryList.size(), Toast.LENGTH_SHORT).show();
+//                adapter = new RepositoryAdapter(MainActivity.this, repositoryList);
+//                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }

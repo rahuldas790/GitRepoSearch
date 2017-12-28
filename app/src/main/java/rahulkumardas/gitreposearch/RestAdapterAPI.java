@@ -1,6 +1,7 @@
 package rahulkumardas.gitreposearch;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -14,7 +15,7 @@ import retrofit2.http.Url;
  */
 
 public interface RestAdapterAPI {
-    public static final String END_POINT = "https://api.github.com/search";
+    public static final String END_POINT = "https://api.github.com";
 
     /**
      * search repository with query
@@ -33,8 +34,8 @@ public interface RestAdapterAPI {
      *                per_page=100
      *                page=50
      */
-    @GET("/repositories")
-    Call<JsonObject> searchRepository(@Query("q") String query, @Query("per_page") int perPage, @Query("page")
+    @GET("/search/repositories")
+    Call<JsonElement> searchRepository(@Query("q") String query, @Query("per_page") int perPage, @Query("page")
             int pageNo, @Query("sort") String sort, @Query("order") String order);
 
     //get user by login name

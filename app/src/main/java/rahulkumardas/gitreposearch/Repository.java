@@ -9,35 +9,9 @@ import android.os.Parcelable;
 
 public class Repository implements Parcelable {
 
-    public Repository() {
-        //required empty constructor for instantiation
+    public Repository(){
+
     }
-
-    protected Repository(Parcel in) {
-        name = in.readString();
-        fullName = in.readString();
-        description = in.readString();
-        language = in.readString();
-        contributorsUrl = in.readString();
-        avtarUrl = in.readString();
-        htmlLink = in.readString();
-        id = in.readInt();
-        forks = in.readInt();
-        watchers = in.readInt();
-        stars = in.readInt();
-    }
-
-    public static final Creator<Repository> CREATOR = new Creator<Repository>() {
-        @Override
-        public Repository createFromParcel(Parcel in) {
-            return new Repository(in);
-        }
-
-        @Override
-        public Repository[] newArray(int size) {
-            return new Repository[size];
-        }
-    };
 
     public String getName() {
         return name;
@@ -87,6 +61,38 @@ public class Repository implements Parcelable {
         this.avtarUrl = avtarUrl;
     }
 
+    public String getHtmlLink() {
+        return htmlLink;
+    }
+
+    public void setHtmlLink(String htmlLink) {
+        this.htmlLink = htmlLink;
+    }
+
+    public String getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(String updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
     public int getId() {
         return id;
     }
@@ -125,17 +131,40 @@ public class Repository implements Parcelable {
     private String language;
     private String contributorsUrl;
     private String avtarUrl;
-
-    public String getHtmlLink() {
-        return htmlLink;
-    }
-
-    public void setHtmlLink(String htmlLink) {
-        this.htmlLink = htmlLink;
-    }
-
     private String htmlLink;
+    private String updatedOn;
+    private String createdOn;
+    private String license;
     private int id, forks, watchers, stars;
+
+    protected Repository(Parcel in) {
+        name = in.readString();
+        fullName = in.readString();
+        description = in.readString();
+        language = in.readString();
+        contributorsUrl = in.readString();
+        avtarUrl = in.readString();
+        htmlLink = in.readString();
+        updatedOn = in.readString();
+        createdOn = in.readString();
+        license = in.readString();
+        id = in.readInt();
+        forks = in.readInt();
+        watchers = in.readInt();
+        stars = in.readInt();
+    }
+
+    public static final Creator<Repository> CREATOR = new Creator<Repository>() {
+        @Override
+        public Repository createFromParcel(Parcel in) {
+            return new Repository(in);
+        }
+
+        @Override
+        public Repository[] newArray(int size) {
+            return new Repository[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -151,6 +180,9 @@ public class Repository implements Parcelable {
         dest.writeString(contributorsUrl);
         dest.writeString(avtarUrl);
         dest.writeString(htmlLink);
+        dest.writeString(updatedOn);
+        dest.writeString(createdOn);
+        dest.writeString(license);
         dest.writeInt(id);
         dest.writeInt(forks);
         dest.writeInt(watchers);
