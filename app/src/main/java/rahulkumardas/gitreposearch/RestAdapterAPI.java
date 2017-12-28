@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -49,6 +51,10 @@ public interface RestAdapterAPI {
     //get repository by repo name and login
     @GET("/repos/{username}/{reponame}")
     Call<JsonObject> getRepoDetails(@Path("username") String username, @Path("reponame") String repoName);
+
+    //get repos by dynamic url
+    @GET
+    Call<JsonArray> getReposByUrl(@Url String url);
 
     //get contributors by dynamic url
     @GET

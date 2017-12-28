@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.JsonElement;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private RecyclerView recyclerView;
     private List<Repository> repositoryList = new ArrayList<>();
     private RepositoryAdapter adapter;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +38,24 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setIcon(R.mipmap.ic_github_white);
         searchView = toolbar.findViewById(R.id.search);
         searchView.setOnQueryTextListener(this);
         recyclerView = findViewById(R.id.recyclerView);
+        progressBar = findViewById(R.id.progress);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RepositoryAdapter(this, repositoryList);
         recyclerView.setAdapter(adapter);
+        searchRepositories("");
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        progressBar.setVisibility(View.VISIBLE);
+        repositoryList.clear();
+        adapter.notifyDataSetChanged();
         searchRepositories(query);
         return false;
     }
@@ -76,16 +85,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             return;
         }
         RestAdapterAPI api = Config.getRestAdapter();
-        Call<JsonElement> result = api.searchRepository(query, 10, 1, "updated", "desc");
+        Call<JsonElement> result = api.searchRepository(query, 10, 1, "watchers", "desc");
         result.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                repositoryList.clear();
                 repositoryList.addAll(JsonHandler.handleRepositories(response.body()));
-//                Toast.makeText(MainActivity.this, "list size" + repositoryList.size(), Toast.LENGTH_SHORT).show();
-//                adapter = new RepositoryAdapter(MainActivity.this, repositoryList);
-//                recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

@@ -58,10 +58,28 @@ public class JsonHandler {
             repository.setForks(item.get("forks_count").getAsInt());
             repository.setStars(item.get("stargazers_count").getAsInt());
             repository.setWatchers(item.get("watchers_count").getAsInt());
+            JsonObject owner = item.get("owner").getAsJsonObject();
+            repository.setOwnerUrl(owner.get("url").getAsString());
+            repository.setAvtarUrl(owner.get("avatar_url").getAsString());
+            repository.setOwnerRepoUrl(owner.get("repos_url").getAsString());
             repositoryList.add(repository);
-//            repository.setLicense(item.get("license").getAsJsonObject().get("name").getAsString());
         }
 
         return repositoryList;
+    }
+
+    public static List<User> handleUsers(JsonArray jsonArray) {
+        List<User> userList = new ArrayList<>();
+        if (jsonArray == null || jsonArray.size() == 0)
+            return userList;
+        for (int i = 0; i < jsonArray.size(); i++) {
+            User user = new User();
+            JsonObject item = jsonArray.get(i).getAsJsonObject();
+            user.setLoginName(item.get("login").getAsString());
+            user.setAvtarUrl(item.get("avatar_url").getAsString());
+            user.setId(item.get("id").getAsInt());
+            userList.add(user);
+        }
+        return userList;
     }
 }

@@ -1,11 +1,16 @@
 package rahulkumardas.gitreposearch;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -40,6 +45,11 @@ class RepositoryAdapter extends RecyclerView.Adapter {
         myHolder.fork.setText(String.valueOf(repository.getForks()));
         myHolder.starts.setText(String.valueOf(repository.getStars()));
         myHolder.watcher.setText(String.valueOf(repository.getWatchers()));
+        Glide.with(context)
+                .load(repository.getAvtarUrl())
+//                .placeholder(R.drawable.loading_spinner)
+                .into(myHolder.imageView);
+
     }
 
     @Override
@@ -47,14 +57,15 @@ class RepositoryAdapter extends RecyclerView.Adapter {
         return repositoryList.size();
     }
 
-    class MyHolder extends RecyclerView.ViewHolder {
+    class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         View root;
         TextView title, description, updated, language, fork, starts, watcher;
+        ImageView imageView;
 
         public MyHolder(View itemView) {
             super(itemView);
-            root = itemView;
+            root = itemView.findViewById(R.id.root);
 
             title = itemView.findViewById(R.id.title);
             description = itemView.findViewById(R.id.desc);
@@ -63,6 +74,19 @@ class RepositoryAdapter extends RecyclerView.Adapter {
             fork = itemView.findViewById(R.id.forks);
             starts = itemView.findViewById(R.id.stars);
             watcher = itemView.findViewById(R.id.watchers);
+            imageView = itemView.findViewById(R.id.image);
+
+            root.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Intent i = new Intent(context, RepoDetailsActivity.class);
+            Bundle b = new Bundle();
+            b.putParcelable("repo", repositoryList.get(position));
+            i.putExtras(b);
+            context.startActivity(i);
         }
     }
 }

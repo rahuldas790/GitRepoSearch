@@ -9,6 +9,20 @@ import android.os.Parcelable;
 
 public class Repository implements Parcelable {
 
+    private String name;
+    private String fullName;
+    private String description;
+    private String language;
+    private String contributorsUrl;
+    private String avtarUrl;
+    private String htmlLink;
+    private String updatedOn;
+    private String createdOn;
+    private String license;
+    private String ownerUrl;
+    private String ownerRepoUrl;
+    private int id, forks, watchers, stars;
+
     public Repository(){
 
     }
@@ -125,17 +139,21 @@ public class Repository implements Parcelable {
         this.stars = stars;
     }
 
-    private String name;
-    private String fullName;
-    private String description;
-    private String language;
-    private String contributorsUrl;
-    private String avtarUrl;
-    private String htmlLink;
-    private String updatedOn;
-    private String createdOn;
-    private String license;
-    private int id, forks, watchers, stars;
+    public String getOwnerUrl() {
+        return ownerUrl;
+    }
+
+    public void setOwnerUrl(String ownerUrl) {
+        this.ownerUrl = ownerUrl;
+    }
+
+    public String getOwnerRepoUrl() {
+        return ownerRepoUrl;
+    }
+
+    public void setOwnerRepoUrl(String ownerRepoUrl) {
+        this.ownerRepoUrl = ownerRepoUrl;
+    }
 
     protected Repository(Parcel in) {
         name = in.readString();
@@ -152,6 +170,8 @@ public class Repository implements Parcelable {
         forks = in.readInt();
         watchers = in.readInt();
         stars = in.readInt();
+        ownerUrl = in.readString();
+        ownerRepoUrl = in.readString();
     }
 
     public static final Creator<Repository> CREATOR = new Creator<Repository>() {
@@ -187,5 +207,7 @@ public class Repository implements Parcelable {
         dest.writeInt(forks);
         dest.writeInt(watchers);
         dest.writeInt(stars);
+        dest.writeString(ownerUrl);
+        dest.writeString(ownerRepoUrl);
     }
 }
