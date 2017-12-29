@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_details">11sp</dimen>
+    <dimen name="small_icon">15sp</dimen>
+    <dimen name="medium_icons">25dp</dimen>
+    <dimen name="margin_separator">10dp</dimen>
+    <dimen name="list_item_size">56dp</dimen>
+</resources>

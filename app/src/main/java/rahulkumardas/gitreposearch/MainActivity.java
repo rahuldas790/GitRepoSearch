@@ -225,6 +225,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
                         }
                     });
+                }else {
+                    card.animate()
+                            .alpha(1)
+                            .translationY(-15)
+                            .setDuration(600)
+                            .start();
                 }
                 filterLayout.setVisibility(VISIBLE);
                 floatingActionButton.setVisibility(View.INVISIBLE);
@@ -275,6 +281,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             });
             animator.start();
         } else {
+            card.animate()
+                    .translationY(15)
+                    .alpha(0)
+                    .setDuration(0)
+                    .start();
             filterLayout.setVisibility(GONE);
         }
         floatingActionButton.setVisibility(VISIBLE);

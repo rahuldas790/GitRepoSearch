@@ -60,18 +60,18 @@
         android:id="@+id/bio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_separator"
         android:text="I am a android developer" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/list_item_size"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="@dimen/margin_separator"
+        android:layout_marginTop="@dimen/margin_separator"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="@dimen/margin_separator">
 
         <TextView
             android:id="@+id/following"
@@ -101,7 +101,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/list_item_size"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
@@ -134,7 +134,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/list_item_size"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
@@ -166,7 +166,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/list_item_size"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
@@ -198,7 +198,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/list_item_size"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
@@ -230,7 +230,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/list_item_size"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"

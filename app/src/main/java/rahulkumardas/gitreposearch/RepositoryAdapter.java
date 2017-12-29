@@ -44,7 +44,7 @@ class RepositoryAdapter extends RecyclerView.Adapter {
         Repository repository = repositoryList.get(position);
         myHolder.title.setText(repository.getFullName());
         myHolder.description.setText(repository.getDescription());
-        myHolder.updated.setText("Last update: " + parseDate(repository.getUpdatedOn()));
+        myHolder.updated.setText("Updated on: " + parseDate(repository.getUpdatedOn()));
         myHolder.language.setText(repository.getLanguage());
         myHolder.fork.setText(String.valueOf(repository.getForks()));
         myHolder.starts.setText(String.valueOf(repository.getStars()));

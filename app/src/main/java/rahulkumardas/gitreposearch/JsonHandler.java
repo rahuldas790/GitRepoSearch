@@ -100,7 +100,8 @@ public class JsonHandler {
             if (item.has("following"))
                 user.setFollowing(item.get("following").getAsInt());
             if (item.has("name")) {
-                user.setName(item.get("name").getAsString());
+                if (!item.get("name").isJsonNull())
+                    user.setName(item.get("name").getAsString());
                 if (!item.get("company").isJsonNull())
                     user.setCompany(item.get("company").getAsString());
                 if (!item.get("email").isJsonNull())
