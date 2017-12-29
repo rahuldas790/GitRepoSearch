@@ -3,6 +3,7 @@ package rahulkumardas.gitreposearch;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,11 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,15 +88,32 @@ public class UserDetailsFragment extends Fragment {
                     bio.setText(user.getBio());
                     following.setText("Following (" + user.getFollowing() + ")");
                     follower.setText("Followers (" + user.getFollowers() + ")");
-                    company.setText(user.getCompany());
-                    location.setText(user.getLocation());
-                    email.setText(user.getEmail());
-                    blog.setText(user.getBlog());
-                    createdOn.setText(user.getCreatedOn());
+
+                    if (!TextUtils.isEmpty(user.getCompany())) {
+                        company.setText(user.getCompany());
+                    } else {
+                        company.setHint("N/A");
+                    }
+                    if (!TextUtils.isEmpty(user.getLocation())) {
+                        location.setText(user.getLocation());
+                    } else {
+                        location.setHint("N/A");
+                    }
+                    if (!TextUtils.isEmpty(user.getEmail())) {
+                        email.setText(user.getEmail());
+                    } else {
+                        email.setHint("N/A");
+                    }
+                    if (!TextUtils.isEmpty(user.getBlog())) {
+                        blog.setText(user.getBlog());
+                    } else {
+                        blog.setHint("N/A");
+                    }
+                    createdOn.setText("Created on: " + parseDate(user.getCreatedOn()));
                     Glide.with(getActivity())
                             .load(user.getAvtarUrl())
                             .into(imageView);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -101,5 +123,17 @@ public class UserDetailsFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    private String parseDate(String createdOn) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat showFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(createdOn);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return showFormat.format(date);
     }
 }

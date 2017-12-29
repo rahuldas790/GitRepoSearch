@@ -12,7 +12,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Rahul Kumar Das on 27-12-2017.
@@ -40,7 +44,7 @@ class RepositoryAdapter extends RecyclerView.Adapter {
         Repository repository = repositoryList.get(position);
         myHolder.title.setText(repository.getFullName());
         myHolder.description.setText(repository.getDescription());
-        myHolder.updated.setText(repository.getUpdatedOn());
+        myHolder.updated.setText("Last update: " + parseDate(repository.getUpdatedOn()));
         myHolder.language.setText(repository.getLanguage());
         myHolder.fork.setText(String.valueOf(repository.getForks()));
         myHolder.starts.setText(String.valueOf(repository.getStars()));
@@ -50,6 +54,18 @@ class RepositoryAdapter extends RecyclerView.Adapter {
 //                .placeholder(R.drawable.loading_spinner)
                 .into(myHolder.imageView);
 
+    }
+
+    private String parseDate(String updatedOn) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat showFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(updatedOn);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return showFormat.format(date);
     }
 
     @Override
