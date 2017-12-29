@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ProgressBar progressBar;
     private View root;
     private FloatingActionButton floatingActionButton;
-    private View filterLayout, card;
+    private View filterLayout, card, nothingLayout;
     private int radiusEnd;
     private Animator animator;
     private boolean iShowingFilter = false;
@@ -82,14 +82,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RepositoryAdapter(this, repositoryList);
         recyclerView.setAdapter(adapter);
-        searchRepositories("");
         floatingActionButton = findViewById(R.id.filter);
         filterLayout = findViewById(R.id.filterLayout);
         root = findViewById(R.id.root);
         card = findViewById(R.id.card);
+        nothingLayout = findViewById(R.id.nothingLayout);
         setUpRevealAnimation();
         setUpFilters();
         iShowingFilter = false;
+//        searchRepositories("");
     }
 
     private void setUpFilters() {
@@ -145,6 +146,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void searchRepositories(final String query) {
+        hideNothing();
+        nothingLayout.animate()
+                .translationY(dpsToPxs(50))
+                .alpha(0)
+                .setDuration(300)
+                .start();
         if (!Config.hasInternetConnection(this)) {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
@@ -171,6 +178,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 repositoryList.addAll(JsonHandler.handleRepositories(response.body()));
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(GONE);
+                if (repositoryList.size() == 0) {
+                    showNothing();
+                }
             }
 
             @Override
@@ -178,6 +188,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 t.printStackTrace();
             }
         });
+    }
+
+    private int dpsToPxs(int dps) {
+        return (int) (dps * getResources().getDisplayMetrics().density);
     }
 
     private void setUpRevealAnimation() {
@@ -225,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
                         }
                     });
-                }else {
+                } else {
                     card.animate()
                             .alpha(1)
                             .translationY(-15)
@@ -294,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void searchAdvance(String path) {
+        hideNothing();
         progressBar.setVisibility(VISIBLE);
         repositoryList.clear();
         adapter.notifyDataSetChanged();
@@ -305,6 +320,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 repositoryList.addAll(JsonHandler.handleRepositories(response.body()));
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(GONE);
+                if (repositoryList.size() == 0)
+                    showNothing();
             }
 
             @Override
@@ -358,5 +375,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void hideNothing() {
+        nothingLayout.animate()
+                .translationY(dpsToPxs(50))
+                .alpha(0)
+                .setDuration(300)
+                .start();
+    }
+
+    private void showNothing() {
+        nothingLayout.animate()
+                .translationY(dpsToPxs(-50))
+                .alpha(1)
+                .setDuration(600)
+                .start();
     }
 }
