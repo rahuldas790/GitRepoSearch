@@ -11,12 +11,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme"
-        app:contentInsetLeft="0dp"
-        app:popupTheme="@style/AppTheme">
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <android.support.v7.widget.SearchView
             android:id="@+id/search"
+            style="@style/AppTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -48,20 +49,11 @@
         android:src="@mipmap/ic_filter"
         app:fabSize="normal" />
 
-    <LinearLayout
+    <include
         android:id="@+id/filterLayout"
+        layout="@layout/filter_lauout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/submit"
-            android:onClick="submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"/>
-    </LinearLayout>
+        android:visibility="gone" />
 
 </RelativeLayout>

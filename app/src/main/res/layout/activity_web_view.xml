@@ -5,12 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/pB1"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
-        android:layout_height="2dp" />
+        android:layout_height="2dp"
+        android:visibility="gone" />
 
     <!-- View that will be hidden when video goes fullscreen -->
     <WebView

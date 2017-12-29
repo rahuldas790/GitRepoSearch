@@ -40,17 +40,8 @@ public interface RestAdapterAPI {
     Call<JsonElement> searchRepository(@Query("q") String query, @Query("per_page") int perPage, @Query("page")
             int pageNo, @Query("sort") String sort, @Query("order") String order);
 
-    //get user by login name
-    @GET("/users/{login}")
-    Call<JsonObject> getUser(@Path("login") String username);
-
-    //find all repository of a user by login name
-    @GET("/users/{login}/gists")
-    Call<JsonObject> getUserRepos(@Path("login") String username);
-
-    //get repository by repo name and login
-    @GET("/repos/{username}/{reponame}")
-    Call<JsonObject> getRepoDetails(@Path("username") String username, @Path("reponame") String repoName);
+    @GET
+    Call<JsonElement> searchRepositoryByUrl(@Url String url);
 
     //get repos by dynamic url
     @GET
